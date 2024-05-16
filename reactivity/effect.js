@@ -25,15 +25,22 @@ function effect(fn, options = {}) {
 
         effectStack.push(effectFn);
 
-        fn();
+        const res = fn();
 
         effectStack.pop();
 
         activeEffect = effectStack[effectStack.length - 1];
+
+        return res;
     };
     effectFn.options = options; // 注册调度器
     effectFn.deps = []; // 记录当前副作用函数处于那个依赖集合里面
-    effectFn();
+
+    if (!options.lazy) {
+        effectFn();
+    }
+
+    return effectFn;
 }
 
 const flushJob = () => {
@@ -143,4 +150,4 @@ effect(
 obj.count++;
 obj.count++;
 
-export default effect;
+export { effect, track, trigger };
