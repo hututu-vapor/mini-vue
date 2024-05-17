@@ -2,7 +2,7 @@ let activeEffect;
 
 const bucket = new WeakMap();
 
-const effectStack = [];
+const effectStack = []; // 副作用栈
 
 const jobQueue = new Set(); // 任务队列
 
